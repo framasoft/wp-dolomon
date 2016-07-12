@@ -1,0 +1,21 @@
+.dolo-button:hover {
+    text-decoration: none;
+}
+.dolo-button {
+    color: #fff !important;
+    border-color: #036881;
+    background: #04bcea;
+    vertical-align: middle;
+    display: inline-block;
+    text-decoration: none;
+    margin: 5px;
+    padding: 5px 10px 5px 10px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}

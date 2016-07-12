@@ -1,0 +1,382 @@
+# Copyright (C) 2016 Dolomon
+# This file is distributed under the same license as the Dolomon package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Dolomon 0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dolomon\n"
+"POT-Creation-Date: 2016-07-11 11:59:47+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: dolomon.php:66
+msgid "Unable to open cache file %s!"
+msgstr ""
+
+#: dolomon.php:119 settings.php:8
+msgid "Dolomon settings"
+msgstr ""
+
+#. #-#-#-#-#  dolomon-slug.pot (Dolomon 0.1)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: dolomon.php:119
+msgid "Dolomon"
+msgstr ""
+
+#: dolomon.php:142
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: dolomon.php:156
+msgid "Unable to register your settings"
+msgstr ""
+
+#: dolomon.php:170
+msgid "Your settings has been successfully registered :-)"
+msgstr ""
+
+#: dolomon.php:172
+msgid "Your dolomon settings are invalid. Please check and retry."
+msgstr ""
+
+#: dolomon.php:242 dolomon.php:284 dolomon.php:329
+msgid ""
+"It seems that the Dolomon server URL is not set. Check your Dolomon settings."
+msgstr ""
+
+#: dolomon.php:248 dolomon.php:290 dolomon.php:335
+msgid "You don't have the right permissions."
+msgstr ""
+
+#: dolomon.php:302
+msgid "There was a problem while checking the referer."
+msgstr ""
+
+#: metabox.php:6 metabox.php:131
+msgid "URL"
+msgstr ""
+
+#: metabox.php:7 metabox.php:221
+msgid "mandatory"
+msgstr ""
+
+#: metabox.php:10 metabox.php:52 metabox.php:62 metabox.php:133
+#: metabox.php:169 metabox.php:194
+msgid "Name"
+msgstr ""
+
+#: metabox.php:11 metabox.php:15 metabox.php:19 metabox.php:226
+#: metabox.php:251 metabox.php:256 metabox.php:261
+msgid "optional"
+msgstr ""
+
+#: metabox.php:14 metabox.php:134
+msgid "Extra"
+msgstr ""
+
+#: metabox.php:18
+msgid "Short"
+msgstr ""
+
+#: metabox.php:22 metabox.php:130 widget.php:112
+msgid "Category"
+msgstr ""
+
+#: metabox.php:24 metabox.php:50
+msgid "Add a category"
+msgstr ""
+
+#: metabox.php:33
+msgid "Tag"
+msgstr ""
+
+#: metabox.php:35 metabox.php:60
+msgid "Add a tag"
+msgstr ""
+
+#: metabox.php:44
+msgid "Create a dolo"
+msgstr ""
+
+#: metabox.php:47
+msgid "Show my dolos"
+msgstr ""
+
+#: metabox.php:56
+msgid "Create a category"
+msgstr ""
+
+#: metabox.php:66
+msgid "Create a tag"
+msgstr ""
+
+#: metabox.php:72
+msgid "My dolos"
+msgstr ""
+
+#: metabox.php:73
+msgid "My dolomon categories"
+msgstr ""
+
+#: metabox.php:74
+msgid "My dolomon tags"
+msgstr ""
+
+#: metabox.php:75
+msgid "Shortcodes help"
+msgstr ""
+
+#: metabox.php:79
+msgid "shortcode builder"
+msgstr ""
+
+#: metabox.php:109 widget.php:118
+msgid "Categories"
+msgstr ""
+
+#: metabox.php:117 metabox.php:136 widget.php:113 widget.php:126
+msgid "Tags"
+msgstr ""
+
+#: metabox.php:124
+msgid "click on a link to copy it to your clipboard"
+msgstr ""
+
+#: metabox.php:132
+msgid "Dolomon URL"
+msgstr ""
+
+#: metabox.php:135 metabox.php:171 metabox.php:196
+msgid "Shortcode"
+msgstr ""
+
+#: metabox.php:139 metabox.php:140 metabox.php:141 metabox.php:142
+#: metabox.php:143 metabox.php:144 metabox.php:145 metabox.php:174
+#: metabox.php:175 metabox.php:176 metabox.php:199 metabox.php:200
+#: metabox.php:201
+msgid "filter"
+msgstr ""
+
+#: metabox.php:170 metabox.php:195
+msgid "Number of dolos"
+msgstr ""
+
+#: metabox.php:217
+msgid "Show a single dolo, formatted with those parameters:"
+msgstr ""
+
+#: metabox.php:222
+msgid "The only mandatory parameter, choose the dolo to show."
+msgstr ""
+
+#: metabox.php:227
+msgid ""
+"This format the rendered text with the text of your choice. %foo will be "
+"replaced like this:"
+msgstr ""
+
+#: metabox.php:230 metabox.php:270
+msgid ""
+"the name of the dolo or its target URL (like https://example.org) if it's "
+"unnamed"
+msgstr ""
+
+#: metabox.php:233
+msgid "the target URL of the dolo"
+msgstr ""
+
+#: metabox.php:236 metabox.php:252
+msgid "the visit counter of the dolo"
+msgstr ""
+
+#: metabox.php:239
+msgid "the name of the category the dolo belongs to"
+msgstr ""
+
+#: metabox.php:242
+msgid "the name of the dolo's tags, comma separated"
+msgstr ""
+
+#: metabox.php:245 metabox.php:257
+msgid "the content of the dolo's \"extra\" field"
+msgstr ""
+
+#: metabox.php:262
+msgid ""
+"returns a link to the dolomon URL. Formatted with those optional parameters "
+"(default to the dolomon URL):"
+msgstr ""
+
+#: metabox.php:266
+msgid "add a class to the link to look like a button"
+msgstr ""
+
+#: metabox.php:271
+msgid "the other parameters works like described above"
+msgstr ""
+
+#: metabox.php:285
+msgid ""
+"Please note that the parameters don't cumulate. <pre><code>self</code></pre> "
+"is overloaded by any other parameter except <pre><code>button</code></pre>"
+msgstr ""
+
+#: metabox.php:286
+msgid "Then the formatting stops at first match in that order:"
+msgstr ""
+
+#: metabox.php:299
+msgid ""
+"Shows the dolos of a category, a tag, or all, depending of the parameters."
+msgstr ""
+
+#: metabox.php:300
+msgid ""
+"Accepts all the parameters of the <pre><code>[dolo]</code></pre> shortcode "
+"except <pre><code>id</code></pre>."
+msgstr ""
+
+#: metabox.php:301
+msgid "Those parameters will be used for the formatting of the dolos."
+msgstr ""
+
+#: metabox.php:305
+msgid ""
+"Shows all the dolos, grouped by categories, with a filter field to quickly "
+"search a dolo."
+msgstr ""
+
+#: metabox.php:306
+msgid "Have an optional parameter:"
+msgstr ""
+
+#: metabox.php:310
+msgid ""
+"Add a list of dolos before the categories blocks. Argument is a comma "
+"separated list of dolos id"
+msgstr ""
+
+#: metabox.php:316
+msgid "The id of the category. Will show something like that:"
+msgstr ""
+
+#: metabox.php:317
+msgid "Name of the category"
+msgstr ""
+
+#: metabox.php:322 metabox.php:342
+msgid "Can take the following optional parameters:"
+msgstr ""
+
+#: metabox.php:326
+msgid ""
+"used to filter the dolos of the category: will show only the dolos that have "
+"at least one of those tags"
+msgstr ""
+
+#: metabox.php:330 metabox.php:349
+msgid "do no show the category name, print only the list of dolos"
+msgstr ""
+
+#: metabox.php:336
+msgid "The id of the tag. Will show something like that:"
+msgstr ""
+
+#: metabox.php:337
+msgid "Name of the tag"
+msgstr ""
+
+#: metabox.php:346
+msgid ""
+"used to filter the dolos of the tag: will show only the dolos that belongs "
+"to one of those categories"
+msgstr ""
+
+#: metabox.php:361
+msgid "Hit Ctrl+C then enter to copy the short link"
+msgstr ""
+
+#: metabox.php:362 settings.php:23
+msgid "Dismiss this notice."
+msgstr ""
+
+#: metabox.php:363
+msgid "The category has been successfully created"
+msgstr ""
+
+#: metabox.php:364
+msgid "The tag has been successfully created"
+msgstr ""
+
+#: metabox.php:365
+msgid "The dolo has been successfully created"
+msgstr ""
+
+#: settings.php:36
+msgid "Dolomon server URL"
+msgstr ""
+
+#: settings.php:44
+msgid "Application id"
+msgstr ""
+
+#: settings.php:52
+msgid "Application secret"
+msgstr ""
+
+#: settings.php:60
+msgid "Cache expiration delay (in minutes)"
+msgstr ""
+
+#: settings.php:68
+msgid "Save Changes"
+msgstr ""
+
+#: widget.php:14
+msgid "Dolos widget"
+msgstr ""
+
+#: widget.php:15
+msgid "Show dolos"
+msgstr ""
+
+#: widget.php:90
+msgid "New title"
+msgstr ""
+
+#: widget.php:102
+msgid "Title:"
+msgstr ""
+
+#: widget.php:106
+msgid "Format:"
+msgstr ""
+
+#: widget.php:110
+msgid "Choose type of widget"
+msgstr ""
+
+#: widget.php:114 widget.php:134
+msgid "Dolos"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://framagit.org/framasoft/wp-dolomon"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Transforms an URL into an URL provided by a Dolomon server, which creates "
+"visit statistics"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Framasoft"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://framasoft.org"
+msgstr ""
