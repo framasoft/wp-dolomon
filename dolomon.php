@@ -190,6 +190,7 @@
     }
     function render_meta_box() {
         $url       = get_option('dolomon-url', '');
+        $url       = preg_replace('/\/$/', '', $url);
         $appid     = get_option('dolomon-app_id', '');
         $appsecret = get_option('dolomon-app_secret', '');
 
@@ -198,7 +199,6 @@
         global $dolo_cache;
 
         add_thickbox();
-
 
         include(dirname(__FILE__).'/metabox.php');
     }
