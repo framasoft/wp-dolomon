@@ -50,36 +50,38 @@
         $appid     = get_option('dolomon-app_id', '');
         $appsecret = get_option('dolomon-app_secret', '');
 
-        $args = array(
-            'headers' => array(
-                'XDolomon-App-Id'     => $appid,
-                'XDolomon-App-Secret' => $appsecret
+        if (!empty($url)) {
+            $args = array(
+                'headers' => array(
+                    'XDolomon-App-Id'     => $appid,
+                    'XDolomon-App-Secret' => $appsecret
 
-            )
-        );
-        $url  = preg_replace('/\/$/', '', $url);
-        $cats = json_decode(wp_remote_get($url.'/api/cat', $args)['body'], true);
-        $tags = json_decode(wp_remote_get($url.'/api/tag', $args)['body'], true);
+                )
+            );
+            $url  = preg_replace('/\/$/', '', $url);
+            $cats = json_decode(wp_remote_get($url.'/api/cat', $args)['body'], true);
+            $tags = json_decode(wp_remote_get($url.'/api/tag', $args)['body'], true);
 
-        global $dolo_cache, $dolo_cachefile;
+            global $dolo_cache, $dolo_cachefile;
 
-        $file = fopen($dolo_cachefile, 'w') or die(printf(__('Unable to open cache file %s!', 'dolomon'), $dolo_cachefile));
+            $file = fopen($dolo_cachefile, 'w') or die(printf(__('Unable to open cache file %s!', 'dolomon'), $dolo_cachefile));
 
-        $dolo_cache['cats'] = array();
-        $dolo_cache['tags'] = array();
-        $dolo_cache['dolos'] = array();
+            $dolo_cache['cats'] = array();
+            $dolo_cache['tags'] = array();
+            $dolo_cache['dolos'] = array();
 
-        foreach ($cats['object'] as $cat) {
-            $dolo_cache['cats']["".$cat['id']] = $cat;
-            foreach ($cat['dolos'] as $dolo) {
-                $dolo_cache['dolos'][$dolo['id']] = $dolo;
+            foreach ($cats['object'] as $cat) {
+                $dolo_cache['cats']["".$cat['id']] = $cat;
+                foreach ($cat['dolos'] as $dolo) {
+                    $dolo_cache['dolos'][$dolo['id']] = $dolo;
+                }
             }
+            foreach ($tags['object'] as $tag) {
+                $dolo_cache['tags']["".$tag['id']] = $tag;
+            }
+            $dolo_cache['last_fetch'] = time();
+            fwrite($file, json_encode($dolo_cache));
         }
-        foreach ($tags['object'] as $tag) {
-            $dolo_cache['tags']["".$tag['id']] = $tag;
-        }
-        $dolo_cache['last_fetch'] = time();
-        fwrite($file, json_encode($dolo_cache));
     }
 
     // Uninstallation hook
