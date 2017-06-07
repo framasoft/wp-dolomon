@@ -38,14 +38,14 @@
     if (file_exists($dolo_cachefile)) {
         $dolo_cache = json_decode(file_get_contents($dolo_cachefile), true);
         if (time() - $dolo_cache['last_fetch'] > get_option('dolomon-cache_expiration', 3600)) {
-            dolomon_refresh_cache();
+            dolomon_refresh_cache($dolo_cachefile);
         }
     } else {
-        dolomon_refresh_cache();
+        dolomon_refresh_cache($dolo_cachefile);
     }
 
     // Get data from dolomon and put it in the cache file
-    function dolomon_refresh_cache() {
+    function dolomon_refresh_cache($dolo_cachefile) {
         $url       = get_option('dolomon-url', '');
         $appid     = get_option('dolomon-app_id', '');
         $appsecret = get_option('dolomon-app_secret', '');
@@ -55,14 +55,26 @@
                 'headers' => array(
                     'XDolomon-App-Id'     => $appid,
                     'XDolomon-App-Secret' => $appsecret
-
                 )
             );
             $url  = preg_replace('/\/$/', '', $url);
-            $cats = json_decode(wp_remote_get($url.'/api/cat', $args)['body'], true);
-            $tags = json_decode(wp_remote_get($url.'/api/tag', $args)['body'], true);
 
-            global $dolo_cache, $dolo_cachefile;
+            $wcats = wp_remote_get($url.'/api/cat', $args);
+            $wtags = wp_remote_get($url.'/api/tag', $args);
+            $cats  = array(
+                'object' => array(),
+            );
+            $tags  = array(
+                'object' => array()
+            );
+            if (is_array($wcats)) {
+                $cats = json_decode($wcats['body'], true);
+            }
+            if (is_array($wcats)) {
+                $tags = json_decode($wtags['body'], true);
+            }
+
+            global $dolo_cache;
 
             $file = fopen($dolo_cachefile, 'w') or die(printf(__('Unable to open cache file %s!', 'dolomon'), $dolo_cachefile));
 
