@@ -46,6 +46,9 @@
 
     // Get data from dolomon and put it in the cache file
     function dolomon_refresh_cache($dolo_cachefile) {
+        if (! defined($dolo_cachefile)) {
+            $dolo_cachefile = dirname(__FILE__).'/cache.json';
+        }
         $url       = get_option('dolomon-url', '');
         $appid     = get_option('dolomon-app_id', '');
         $appsecret = get_option('dolomon-app_secret', '');
@@ -208,7 +211,7 @@
         $appid     = get_option('dolomon-app_id', '');
         $appsecret = get_option('dolomon-app_secret', '');
 
-        dolomon_refresh_cache();
+        dolomon_refresh_cache($dolo_cachefile);
 
         global $dolo_cache;
 
@@ -247,7 +250,7 @@
                 $url    = preg_replace('/\/$/', '', $url);
                 $result = json_decode(wp_remote_post($url.'/api/dolo', $args)['body'], true);
                 if ($result['success']) {
-                    dolomon_refresh_cache();
+                    dolomon_refresh_cache($dolo_cachefile);
                 }
                 wp_send_json($result);
             } else {
@@ -289,7 +292,7 @@
                 $url    = preg_replace('/\/$/', '', $url);
                 $result = json_decode(wp_remote_post($url.'/api/cat', $args)['body'], true);
                 if ($result['success']) {
-                    dolomon_refresh_cache();
+                    dolomon_refresh_cache($dolo_cachefile);
                 }
                 wp_send_json($result);
             } else {
@@ -334,7 +337,7 @@
                 $url    = preg_replace('/\/$/', '', $url);
                 $result = json_decode(wp_remote_post($url.'/api/tag', $args)['body'], true);
                 if ($result['success']) {
-                    dolomon_refresh_cache();
+                    dolomon_refresh_cache($dolo_cachefile);
                 }
                 wp_send_json($result);
             } else {
@@ -439,7 +442,7 @@
         global $dolo_cache;
         $cache_expiration = get_option('dolomon-cache_expiration', 3600);
         if (!isset($dolo_cache['dolos']["$id"]) || (time() - $dolo_cache['last_fetch'] > $cache_expiration)) {
-            dolomon_refresh_cache();
+            dolomon_refresh_cache($dolo_cachefile);
         }
         $ar = array();
         if ($a['page']) {
@@ -570,7 +573,7 @@
         global $dolo_cache;
         $cache_expiration = get_option('dolomon-cache_expiration', 3600);
         if (!isset($dolo_cache['dolos']["$id"]) || (time() - $dolo_cache['last_fetch'] > $cache_expiration)) {
-            dolomon_refresh_cache();
+            dolomon_refresh_cache($dolo_cachefile);
         }
         if (isset($dolo_cache['dolos']["$id"])) {
             $dolo = $dolo_cache['dolos']["$id"];
