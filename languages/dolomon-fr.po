@@ -1,56 +1,56 @@
-# Copyright (C) 2016 Dolomon
+# Copyright (C) 2018 Dolomon
 # This file is distributed under the same license as the Dolomon package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Dolomon 0.1\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dolomon\n"
-"POT-Creation-Date: 2016-07-06 11:12:53+00:00\n"
+"Project-Id-Version: Dolomon 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-dolomon\n"
+"POT-Creation-Date: 2018-01-12 08:25:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Luc Didry <luc@framasoft.org>\n"
 
-#: dolomon.php:66
+#: dolomon.php:82
 msgid "Unable to open cache file %s!"
 msgstr "Impossible d’ouvrir le fichier de cache %s !"
 
-#: dolomon.php:119 settings.php:8
+#: dolomon.php:136 settings.php:8
 msgid "Dolomon settings"
 msgstr "Paramètres de Dolomon"
 
-#. #-#-#-#-#  dolomon-slug.pot (Dolomon 0.1)  #-#-#-#-#
+#. #-#-#-#-#  dolomon-slug.pot (Dolomon 1.0)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: dolomon.php:119
 msgid "Dolomon"
 msgstr "Dolomon"
 
-#: dolomon.php:142
+#: dolomon.php:159
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Vous n’avez pas les permissions suffisantes pour accéder à cette page."
 
-#: dolomon.php:156
+#: dolomon.php:173
 msgid "Unable to register your settings"
 msgstr "Impossible d’enregistrer vos paramètres"
 
-#: dolomon.php:170
+#: dolomon.php:187
 msgid "Your settings has been successfully registered :-)"
 msgstr "Vos paramètres ont été enregistrés avec succès :-)"
 
-#: dolomon.php:172
+#: dolomon.php:189
 msgid "Your dolomon settings are invalid. Please check and retry."
 msgstr "Vos paramètres pour Dolomon sont invalides. Veuillez vérifier et réessayer."
 
-#: dolomon.php:242 dolomon.php:284 dolomon.php:329
+#: dolomon.php:259 dolomon.php:301 dolomon.php:346
 msgid ""
 "It seems that the Dolomon server URL is not set. Check your Dolomon settings."
 msgstr "Il semblerait que l’URL du server Dolomon ne soit pas paramétrée. Vérifiez la configuration du plugin Dolomon"
 
-#: dolomon.php:248 dolomon.php:290 dolomon.php:335
+#: dolomon.php:265 dolomon.php:307 dolomon.php:352
 msgid "You don't have the right permissions."
 msgstr "Vous n’avez pas les bonnes permissions."
 
-#: dolomon.php:302
+#: dolomon.php:319
 msgid "There was a problem while checking the referer."
 msgstr ""
 
@@ -62,13 +62,13 @@ msgstr "URL"
 msgid "mandatory"
 msgstr "obligatoire"
 
-#: metabox.php:10 metabox.php:52 metabox.php:62 metabox.php:133
-#: metabox.php:169 metabox.php:194
+#: metabox.php:10 metabox.php:52 metabox.php:62 metabox.php:133 metabox.php:169
+#: metabox.php:194
 msgid "Name"
 msgstr "Nom"
 
-#: metabox.php:11 metabox.php:15 metabox.php:19 metabox.php:226
-#: metabox.php:251 metabox.php:256 metabox.php:261
+#: metabox.php:11 metabox.php:15 metabox.php:19 metabox.php:226 metabox.php:251
+#: metabox.php:256 metabox.php:261
 msgid "optional"
 msgstr "facultatif"
 
