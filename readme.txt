@@ -22,7 +22,7 @@ Installation is standard and straight forward.
 1. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Frequently Asked Questions ==
-=== I can't create a link from the shortcode while writing with WP-Markdown ===
+= I can't create a link from the shortcode while writing with WP-Markdown =
 
 Yes, we know that. Sorry, we didn't find a way to make it work. Use the Dolomon URL instead.
 
