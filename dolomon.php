@@ -137,7 +137,7 @@
     }
     add_action('admin_menu', 'dolomon_menu');
 
-    function dolomon_check_settings($url, $appid, $appsecret) {
+    function dolomon_check_settings($url, $appid, $appsecret, $cache_expiration) {
         $args = array(
             'headers' => array(
                 'XDolomon-App-Id'     => $appid,
@@ -147,7 +147,7 @@
         $url    = preg_replace('/\/$/', '', $url);
         $result = json_decode(wp_remote_post($url.'/api/ping', $args)['body'], true);
         if ($result['success']) {
-            return true;
+            return is_numeric($cache_expiration);
         } else {
             return false;
         }
@@ -175,11 +175,11 @@
                 return;
             }
 
-            $url              = $_POST['dolomon-url'];
-            $appid            = $_POST['dolomon-app_id'];
-            $appsecret        = $_POST['dolomon-app_secret'];
-            $cache_expiration = $_POST['dolomon-cache_expiration'];
-            if (dolomon_check_settings($url, $appid, $appsecret)) {
+            $url              = esc_url_raw($_POST['dolomon-url']);
+            $appid            = sanitize_text_field($_POST['dolomon-app_id']);
+            $appsecret        = sanitize_text_field($_POST['dolomon-app_secret']);
+            $cache_expiration = sanitize_text_field($_POST['dolomon-cache_expiration']);
+            if (dolomon_check_settings($url, $appid, $appsecret, $cache_expiration)) {
                 update_option('dolomon-url',              $url);
                 update_option('dolomon-app_id',           $appid);
                 update_option('dolomon-app_secret',       $appsecret);
@@ -232,6 +232,8 @@
             $appsecret = get_option('dolomon-app_secret', '');
 
             if (!empty($url)) {
+                # No need to sanitize input: the sanitizing will be done
+                # on the Dolomon server (double sanitizing may break things)
                 $args = array(
                     'body'    => array(
                         'url'    => $_POST['url'],
@@ -281,7 +283,7 @@
             if (!empty($url)) {
                 $args = array(
                     'body'    => array(
-                        'name' => stripslashes($_POST['name']),
+                        'name' => stripslashes(sanitize_text_field($_POST['name'])),
                     ),
                     'headers' => array(
                         'XDolomon-App-Id'     => $appid,
@@ -326,7 +328,7 @@
             if (!empty($url)) {
                 $args = array(
                     'body'    => array(
-                        'name' => stripslashes($_POST['name']),
+                        'name' => stripslashes(sanitize_text_field($_POST['name'])),
                     ),
                     'headers' => array(
                         'XDolomon-App-Id'     => $appid,
