@@ -45,32 +45,32 @@ class Dolo_Widget extends WP_Widget {
 			case 'dolo-choose-cat':
 				foreach ( $instance['dolomon-cat'] as $cat_id ) {
 					$cat = $dolo_cache['cats']["$cat_id"]; ?>
-                    <h6 style="margin: 5px 0"><?php echo apply_filters( 'widget_text', $cat['name'] ); ?></h6>
-                    <ul>
+					<h6 style="margin: 5px 0"><?php echo apply_filters( 'widget_text', $cat['name'] ); ?></h6>
+					<ul>
 						<?php foreach ( $cat['dolos'] as $dolo ) { ?>
-                            <li><?php echo apply_filters( 'widget_text', dolo_format( $dolo, $a ) ); ?></li>
+							<li><?php echo apply_filters( 'widget_text', dolo_format( $dolo, $a ) ); ?></li>
 						<?php } ?>
-                    </ul>
+					</ul>
 				<?php }
 				break;
 			case 'dolo-choose-tag':
 				foreach ( $instance['dolomon-tag'] as $tag_id ) {
 					$tag = $dolo_cache['tags']["$tag_id"]; ?>
-                    <h6 style="margin: 5px 0"><?php echo apply_filters( 'widget_text', $tag['name'] ); ?></h6>
-                    <ul>
+					<h6 style="margin: 5px 0"><?php echo apply_filters( 'widget_text', $tag['name'] ); ?></h6>
+					<ul>
 						<?php foreach ( $tag['dolos'] as $dolo ) { ?>
-                            <li><?php echo apply_filters( 'widget_text', dolo_format( $dolo, $a ) ); ?></li>
+							<li><?php echo apply_filters( 'widget_text', dolo_format( $dolo, $a ) ); ?></li>
 						<?php } ?>
-                    </ul>
+					</ul>
 				<?php }
 				break;
 			case 'dolo-choose-dolo': ?>
-                <ul>
+				<ul>
 					<?php foreach ( $instance['dolomon-dolo'] as $dolo_id ) {
 						$dolo = $dolo_cache['dolos']["$dolo_id"]; ?>
-                        <li><?php echo apply_filters( 'widget_text', dolo_format( $dolo, $a ) ); ?></li>
+						<li><?php echo apply_filters( 'widget_text', dolo_format( $dolo, $a ) ); ?></li>
 					<?php } ?>
-                </ul>
+				</ul>
 				<?php break;
 		}
 		echo $args['after_widget'];
@@ -98,52 +98,52 @@ class Dolo_Widget extends WP_Widget {
 		$title    = $instance['title'];
 		$format   = $instance['format'];
 		?>
-        <p>
-            <label for="<?php echo $this->get_field_id( 'title' ) ?>"><?php _e( 'Title:', 'dolomon' ); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ) ?>" name="<?php echo $this->get_field_name( 'title' ) ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
-        </p>
-        <p>
-            <label for="<?php echo $this->get_field_id( 'format' ) ?>"><?php _e( 'Format:', 'dolomon' ) ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id( 'format' ) ?>" name="<?php echo $this->get_field_name( 'format' ) ?>" type="text" value="<?php echo esc_attr( $format ); ?>" placeholder="%name">
-        </p>
-        <p>
-            <label for="<?php echo $this->get_field_id( 'dolo-widget-type' ) ?>"><?php _e( 'Choose type of widget', 'dolomon' ) ?></label>
-            <select id="<?php echo $this->get_field_id( 'dolo-widget-type' ) ?>" name="<?php echo $this->get_field_name( 'dolo-widget-type' ) ?>" class="widefat dolo-widget-type">
-                <option value="dolo-choose-cat"<?php if ( $instance['dolo-widget-type'] === 'dolo-choose-cat' ) { ?> selected<?php } ?>><?php _e( 'Category', 'dolomon' ) ?></option>
-                <option value="dolo-choose-tag"<?php if ( $instance['dolo-widget-type'] === 'dolo-choose-tag' ) { ?> selected<?php } ?>><?php _e( 'Tags', 'dolomon' ) ?></option>
-                <option value="dolo-choose-dolo"<?php if ( $instance['dolo-widget-type'] === 'dolo-choose-dolo' ) { ?> selected<?php } ?>><?php _e( 'Dolos', 'dolomon' ) ?></option>
-            </select>
-        </p>
-        <p class="dolo-choose-cat<?php if ( $instance['dolo-widget-type'] != 'dolo-choose-cat' ) { ?> hidden<?php } ?>">
-            <label for="<?php echo $this->get_field_id( 'dolomon-cat' ) ?>"><?php _e( 'Categories', 'dolomon' ) ?></label><br>
-            <select id="<?php echo $this->get_field_id( 'dolomon-cat' ) ?>" name="<?php echo $this->get_field_name( 'dolomon-cat[]' ) ?>" class="widefat" multiple>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ) ?>"><?php _e( 'Title:', 'dolomon' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ) ?>" name="<?php echo $this->get_field_name( 'title' ) ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'format' ) ?>"><?php _e( 'Format:', 'dolomon' ) ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'format' ) ?>" name="<?php echo $this->get_field_name( 'format' ) ?>" type="text" value="<?php echo esc_attr( $format ); ?>" placeholder="%name">
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'dolo-widget-type' ) ?>"><?php _e( 'Choose type of widget', 'dolomon' ) ?></label>
+			<select id="<?php echo $this->get_field_id( 'dolo-widget-type' ) ?>" name="<?php echo $this->get_field_name( 'dolo-widget-type' ) ?>" class="widefat dolo-widget-type">
+				<option value="dolo-choose-cat"<?php if ( $instance['dolo-widget-type'] === 'dolo-choose-cat' ) { ?> selected<?php } ?>><?php _e( 'Category', 'dolomon' ) ?></option>
+				<option value="dolo-choose-tag"<?php if ( $instance['dolo-widget-type'] === 'dolo-choose-tag' ) { ?> selected<?php } ?>><?php _e( 'Tags', 'dolomon' ) ?></option>
+				<option value="dolo-choose-dolo"<?php if ( $instance['dolo-widget-type'] === 'dolo-choose-dolo' ) { ?> selected<?php } ?>><?php _e( 'Dolos', 'dolomon' ) ?></option>
+			</select>
+		</p>
+		<p class="dolo-choose-cat<?php if ( $instance['dolo-widget-type'] != 'dolo-choose-cat' ) { ?> hidden<?php } ?>">
+			<label for="<?php echo $this->get_field_id( 'dolomon-cat' ) ?>"><?php _e( 'Categories', 'dolomon' ) ?></label><br>
+			<select id="<?php echo $this->get_field_id( 'dolomon-cat' ) ?>" name="<?php echo $this->get_field_name( 'dolomon-cat[]' ) ?>" class="widefat" multiple>
 				<?php foreach ( $dolo_cache['cats'] as $cat ) { ?>
-                    <option value="<?php echo $cat['id'] ?>"<?php if ( in_array( $cat['id'], $instance['dolomon-cat'] ) ) { ?> selected<?php } ?>><?php echo $cat['name'] ?></option>
+					<option value="<?php echo $cat['id'] ?>"<?php if ( in_array( $cat['id'], $instance['dolomon-cat'] ) ) { ?> selected<?php } ?>><?php echo $cat['name'] ?></option>
 				<?php } ?>
-            </select>
-        </p>
-        <p class="dolo-choose-tag<?php if ( $instance['dolo-widget-type'] != 'dolo-choose-tag' ) { ?> hidden<?php } ?>">
-            <label for="<?php echo $this->get_field_id( 'dolomon-tag' ) ?>"><?php _e( 'Tags', 'dolomon' ) ?></label><br>
-            <select id="<?php echo $this->get_field_id( 'dolomon-tag' ) ?>" name="<?php echo $this->get_field_name( 'dolomon-tag[]' ) ?>" class="widefat" multiple>
+			</select>
+		</p>
+		<p class="dolo-choose-tag<?php if ( $instance['dolo-widget-type'] != 'dolo-choose-tag' ) { ?> hidden<?php } ?>">
+			<label for="<?php echo $this->get_field_id( 'dolomon-tag' ) ?>"><?php _e( 'Tags', 'dolomon' ) ?></label><br>
+			<select id="<?php echo $this->get_field_id( 'dolomon-tag' ) ?>" name="<?php echo $this->get_field_name( 'dolomon-tag[]' ) ?>" class="widefat" multiple>
 				<?php foreach ( $dolo_cache['tags'] as $tag ) { ?>
-                    <option value="<?php echo $tag['id'] ?>"<?php if ( in_array( $tag['id'], $instance['dolomon-tag'] ) ) { ?> selected<?php } ?>><?php echo $tag['name'] ?></option>
+					<option value="<?php echo $tag['id'] ?>"<?php if ( in_array( $tag['id'], $instance['dolomon-tag'] ) ) { ?> selected<?php } ?>><?php echo $tag['name'] ?></option>
 				<?php } ?>
-            </select>
-        </p>
-        <p class="dolo-choose-dolo<?php if ( $instance['dolo-widget-type'] != 'dolo-choose-dolo' ) { ?> hidden<?php } ?>">
-            <label for="<?php echo $this->get_field_id( 'dolomon-dolo' ) ?>"><?php _e( 'Dolos', 'dolomon' ) ?></label><br>
-            <input class="widefat dolo-filter" type="text" placeholder="filter">
-            <select id="<?php echo $this->get_field_id( 'dolomon-dolo' ) ?>" name="<?php echo $this->get_field_name( 'dolomon-dolo[]' ) ?>" class="widefat" multiple>
+			</select>
+		</p>
+		<p class="dolo-choose-dolo<?php if ( $instance['dolo-widget-type'] != 'dolo-choose-dolo' ) { ?> hidden<?php } ?>">
+			<label for="<?php echo $this->get_field_id( 'dolomon-dolo' ) ?>"><?php _e( 'Dolos', 'dolomon' ) ?></label><br>
+			<input class="widefat dolo-filter" type="text" placeholder="filter">
+			<select id="<?php echo $this->get_field_id( 'dolomon-dolo' ) ?>" name="<?php echo $this->get_field_name( 'dolomon-dolo[]' ) ?>" class="widefat" multiple>
 				<?php foreach ( $dolo_cache['dolos'] as $dolo ) {
 					if ( empty( $dolo['name'] ) ) { ?>
-                        <option value="<?php echo $dolo['id'] ?>"<?php if ( in_array( $dolo['id'], $instance['dolomon-dolo'] ) ) { ?> selected<?php } ?>><?php echo $dolo['url'] ?></option>
+						<option value="<?php echo $dolo['id'] ?>"<?php if ( in_array( $dolo['id'], $instance['dolomon-dolo'] ) ) { ?> selected<?php } ?>><?php echo $dolo['url'] ?></option>
 					<?php } else { ?>
-                        <option value="<?php echo $dolo['id'] ?>"<?php if ( in_array( $dolo['id'], $instance['dolomon-dolo'] ) ) { ?> selected<?php } ?>><?php echo $dolo['name'] ?></option>
+						<option value="<?php echo $dolo['id'] ?>"<?php if ( in_array( $dolo['id'], $instance['dolomon-dolo'] ) ) { ?> selected<?php } ?>><?php echo $dolo['name'] ?></option>
 					<?php } ?>
 				<?php } ?>
-            </select>
-        </p>
-        <script>
+			</select>
+		</p>
+		<script>
 			jQuery( document ).ready( function ( $ ) {
 				$( '.dolo-widget-type' ).unbind( 'change' );
 				$( '.dolo-widget-type' ).change( function () {
@@ -174,7 +174,7 @@ class Dolo_Widget extends WP_Widget {
 					} );
 				} );
 			} );
-        </script>
+		</script>
 		<?php
 	}
 
