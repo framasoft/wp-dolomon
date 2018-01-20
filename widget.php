@@ -26,10 +26,8 @@ class Dolo_Widget extends WP_Widget {
 	 * @param array $instance Saved values from database.
 	 */
 	public function widget( $args, $instance ) {
-		global $dolo_cache;
-		if ( time() - $dolo_cache['last_fetch'] > $cache_expiration ) {
-			dolomon_refresh_cache();
-		}
+		$dolo_cache = dolomon_fetch_data();
+
 		echo $args['before_widget'];
 		if ( ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
@@ -85,8 +83,8 @@ class Dolo_Widget extends WP_Widget {
 	 * @param array $instance Previously saved values from database.
 	 */
 	public function form( $instance ) {
-		global $dolo_cache;
-		dolomon_refresh_cache();
+		$dolo_cache = dolomon_fetch_data();
+
 		$defaults = [
 			'title'            => __( 'New title', 'dolomon' ),
 			'format'           => '%name',
