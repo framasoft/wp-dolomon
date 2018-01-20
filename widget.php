@@ -1,4 +1,5 @@
 <?php
+// vim:set ft=php noexpandtab:
 
 /**
  * Adds Foo_Widget widget.

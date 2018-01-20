@@ -1,3 +1,4 @@
+// vim:set ft=javascript noexpandtab:
 jQuery( document ).ready( function ( $ ) {
 	$( '#doloSearch' ).val( '' );
 	$( '#doloSearch' ).on( 'keyup', function ( e ) {

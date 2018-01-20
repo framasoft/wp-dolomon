@@ -1,5 +1,5 @@
 <?php
-// vim:set sw=4 ts=4 sts=4 ft=php expandtab:
+// vim:set ft=php noexpandtab:
 ?>
 <style>
 	#dolomon-form input {

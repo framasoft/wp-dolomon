@@ -1,3 +1,4 @@
+// vim:set ft=javascript noexpandtab:
 // Stolen from https://github.com/mozilla-services/push-dev-dashboard/blob/3ad4de737380d0842f40c82301d1f748c1b20f2b/push/static/js/validation.js
 function createNode( text ) {
 	var node = document.createElement( 'pre' );

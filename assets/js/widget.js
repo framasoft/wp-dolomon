@@ -1,3 +1,4 @@
+// vim:set ft=javascript noexpandtab:
 jQuery( document ).ready( function ( $ ) {
 	$( '.dolo-widget-type' ).unbind( 'change' );
 	$( '.dolo-widget-type' ).change( function () {
