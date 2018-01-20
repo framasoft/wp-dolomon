@@ -138,20 +138,27 @@ function dolomon_menu() {
 add_action( 'admin_menu', 'dolomon_menu' );
 
 function dolomon_check_settings( $url, $appid, $appsecret, $cache_expiration ) {
-	$args   = [
+	$args = [
 		'headers' => [
 			'XDolomon-App-Id'     => $appid,
 			'XDolomon-App-Secret' => $appsecret,
 		],
 	];
-	$url    = preg_replace( '/\/$/', '', $url );
-	$result = json_decode( wp_remote_post( $url . '/api/ping', $args )['body'], true );
-	if ( $result['success'] ) {
-		return is_numeric( $cache_expiration );
-	} else {
+	$url  = untrailingslashit( $url );
+
+	$pong = wp_remote_post( $url . '/api/ping', $args );
+	if ( is_wp_error( $pong ) ) {
 		return false;
 	}
+
+	$result = json_decode( $pong['body'], true );
+	if ( $result['success'] ) {
+		return is_numeric( $cache_expiration );
+	}
+
+	return false;
 }
+
 // Dolomon settings page
 function dolomon_options() {
 	// check permissions
