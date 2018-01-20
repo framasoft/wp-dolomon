@@ -1,9 +1,11 @@
 .hidden {
     display: none;
 }
+
 #doloSearch {
     width: 97%;
 }
+
 .doloCat {
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -11,20 +13,24 @@
     display: inline-block;
     vertical-align: top;
 }
+
 .doloCat h3 {
     border-bottom: 1px solid #ddd;
     margin: 10px;
     padding-bottom: 5px;
 }
+
 @media screen and (max-width: 760px) {
     .doloCat {
         width: 96%;
     }
 }
+
 @media screen and (min-width: 761px) {
     .doloCat {
         width: 48%;
     }
+
     .doloCat.featured {
         width: calc(96% + 5px);
     }
