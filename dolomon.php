@@ -34,7 +34,7 @@ $dolo_cache     = [
 	'cats'  => null,
 	'tags'  => null,
 ];
-$dolo_cachefile = dirname( __FILE__ ) . '/cache.json';
+$dolo_cachefile = __DIR__ . '/cache.json';
 if ( file_exists( $dolo_cachefile ) ) {
 	$dolo_cache = json_decode( file_get_contents( $dolo_cachefile ), true );
 	if ( time() - $dolo_cache['last_fetch'] > get_option( 'dolomon-cache_expiration', 3600 ) ) {
@@ -46,8 +46,8 @@ if ( file_exists( $dolo_cachefile ) ) {
 
 // Get data from dolomon and put it in the cache file
 function dolomon_refresh_cache( $dolo_cachefile ) {
-	if ( ! defined( $dolo_cachefile ) ) {
-		$dolo_cachefile = dirname( __FILE__ ) . '/cache.json';
+	if ( null === $dolo_cachefile || '' === $dolo_cachefile ) {
+		$dolo_cachefile = __DIR__ . '/cache.json';
 	}
 	$url       = get_option( 'dolomon-url', '' );
 	$appid     = get_option( 'dolomon-app_id', '' );
@@ -79,7 +79,7 @@ function dolomon_refresh_cache( $dolo_cachefile ) {
 
 		global $dolo_cache;
 
-		$file = fopen( $dolo_cachefile, 'w' ) or die( printf( __( 'Unable to open cache file %s!', 'dolomon' ), $dolo_cachefile ) );
+		$file = fopen( $dolo_cachefile, 'wb' ) or die( printf( __( 'Unable to open cache file %s!', 'dolomon' ), $dolo_cachefile ) );
 
 		$dolo_cache['cats']  = [];
 		$dolo_cache['tags']  = [];
@@ -109,7 +109,7 @@ function dolomon_uninstall() {
 register_uninstall_hook( __FILE__, 'dolomon_uninstall' );
 
 // Load languages files
-load_plugin_textdomain( 'dolomon', false, basename( dirname( __FILE__ ) ) . '/languages' );
+load_plugin_textdomain( 'dolomon', false, basename( __DIR__ ) . '/languages' );
 
 // add styles and scripts
 function dolomon_post_scripts() {
@@ -171,7 +171,7 @@ function dolomon_options() {
 	if ( isset( $_POST['dolomon-app_id'] ) ) {
 		if ( ! check_admin_referer( 'dolomon-settings' ) ) {
 			$msg = __( 'Unable to register your settings', 'dolomon' );
-			include( dirname( __FILE__ ) . '/settings.php' );
+			require __DIR__ . '/settings.php';
 			return;
 		}
 
@@ -191,7 +191,7 @@ function dolomon_options() {
 	}
 
 	// Display the settings page
-	include( dirname( __FILE__ ) . '/settings.php' );
+	require __DIR__ . '/settings.php';
 }
 
 // Add a box in the edition page
@@ -217,7 +217,7 @@ function render_meta_box() {
 
 	add_thickbox();
 
-	include( dirname( __FILE__ ) . '/metabox.php' );
+	require __DIR__ . '/metabox.php';
 }
 add_action( 'add_meta_boxes', 'add_dolomon_meta_box' );
 
@@ -443,6 +443,7 @@ function dolos_short( $atts ) {
 
 	global $dolo_cache;
 	$cache_expiration = get_option( 'dolomon-cache_expiration', 3600 );
+	// fixme: $id isn't set, but fix this when fixing #2.
 	if ( ! isset( $dolo_cache['dolos']["$id"] ) || ( time() - $dolo_cache['last_fetch'] > $cache_expiration ) ) {
 		dolomon_refresh_cache( $dolo_cachefile );
 	}
@@ -455,15 +456,11 @@ function dolos_short( $atts ) {
 			$atags = explode( ',', $a['tags'] );
 			$dolos = [];
 			foreach ( $cat['dolos'] as $dolo ) {
-				$ok = false;
 				foreach ( $dolo['tags'] as $tag ) {
 					if ( in_array( $tag['id'], $atags ) ) {
-						$ok = true;
+						$dolos[] = $dolo;
 						break;
 					}
-				}
-				if ( $ok ) {
-					$dolos[] = $dolo;
 				}
 			}
 			if ( count( $dolos ) > 0 ) {
@@ -476,14 +473,10 @@ function dolos_short( $atts ) {
 	} elseif ( isset( $a['tag'] ) ) {
 		$tag = $dolo_cache['tags'][ $a['tag'] ];
 		if ( isset( $a['cats'] ) ) {
-			$acat  = explode( ',', $a['cat'] );
+			$acats = explode( ',', $a['cat'] );
 			$dolos = [];
 			foreach ( $tag['dolos'] as $dolo ) {
-				$ok = false;
 				if ( in_array( $dolo['category_id'], $acats ) ) {
-					$ok = true;
-				}
-				if ( $ok ) {
 					$dolos[] = $dolo;
 				}
 			}
@@ -587,5 +580,4 @@ function dolo_short( $atts ) {
 add_shortcode( 'dolo', 'dolo_short' );
 
 // Widget
-include( dirname( __FILE__ ) . '/widget.php' );
-?>
+require __DIR__ . '/widget.php';
