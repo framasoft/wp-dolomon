@@ -96,7 +96,7 @@ function dolomon_uninstall() {
 register_uninstall_hook( __FILE__, 'dolomon_uninstall' );
 
 // Load languages files
-load_plugin_textdomain( 'dolomon', false, basename( dirname( __FILE__ ) ) . '/languages' );
+load_plugin_textdomain( 'dolomon', false, basename( __DIR__ ) . '/languages' );
 
 // add styles and scripts
 function dolomon_post_scripts() {
@@ -125,20 +125,27 @@ function dolomon_menu() {
 add_action( 'admin_menu', 'dolomon_menu' );
 
 function dolomon_check_settings( $url, $appid, $appsecret, $cache_expiration ) {
-	$args   = [
+	$args = [
 		'headers' => [
 			'XDolomon-App-Id'     => $appid,
 			'XDolomon-App-Secret' => $appsecret,
 		],
 	];
-	$url    = preg_replace( '/\/$/', '', $url );
-	$result = json_decode( wp_remote_post( $url . '/api/ping', $args )['body'], true );
-	if ( $result['success'] ) {
-		return is_numeric( $cache_expiration );
-	} else {
+	$url  = untrailingslashit( $url );
+
+	$pong = wp_remote_post( $url . '/api/ping', $args );
+	if ( is_wp_error( $pong ) ) {
 		return false;
 	}
+
+	$result = json_decode( $pong['body'], true );
+	if ( $result['success'] ) {
+		return is_numeric( $cache_expiration );
+	}
+
+	return false;
 }
+
 // Dolomon settings page
 function dolomon_options() {
 	// check permissions
@@ -149,20 +156,23 @@ function dolomon_options() {
 	$action_url = $_SERVER['REQUEST_URI'];
 
 	// Get the current settings
-	$url              = get_option( 'dolomon-url', '' );
+	$url              = untrailingslashit( get_option( 'dolomon-url', '' ) );
 	$appid            = get_option( 'dolomon-app_id', '' );
 	$appsecret        = get_option( 'dolomon-app_secret', '' );
 	$cache_expiration = get_option( 'dolomon-cache_expiration', 3600 ) / 60;
 
+	$settings_valid = true;
+
 	// Store the settings
 	if ( isset( $_POST['dolomon-app_id'] ) ) {
 		if ( ! check_admin_referer( 'dolomon-settings' ) ) {
-			$msg = __( 'Unable to register your settings', 'dolomon' );
-			include( dirname( __FILE__ ) . '/settings.php' );
+			$settings_valid = false;
+			$notice_message = __( 'Unable to register your dolomon settings', 'dolomon' );
+			require __DIR__ . '/settings.php';
 			return;
 		}
 
-		$url              = esc_url_raw( $_POST['dolomon-url'] );
+		$url              = untrailingslashit( esc_url_raw( $_POST['dolomon-url'] ) );
 		$appid            = sanitize_text_field( $_POST['dolomon-app_id'] );
 		$appsecret        = sanitize_text_field( $_POST['dolomon-app_secret'] );
 		$cache_expiration = sanitize_text_field( $_POST['dolomon-cache_expiration'] );
@@ -171,14 +181,15 @@ function dolomon_options() {
 			update_option( 'dolomon-app_id', $appid );
 			update_option( 'dolomon-app_secret', $appsecret );
 			update_option( 'dolomon-cache_expiration', $cache_expiration * 60 );
-			$msg = __( 'Your settings has been successfully registered :-)', 'dolomon' );
+			$notice_message = __( 'Your dolomon settings have been successfully registered :-)', 'dolomon' );
 		} else {
-			$msg = __( 'Your dolomon settings are invalid. Please check and retry.', 'dolomon' );
+			$settings_valid = false;
+			$notice_message = __( 'Your dolomon settings are invalid. Please check them and retry.', 'dolomon' );
 		}
 	}
 
 	// Display the settings page
-	include( dirname( __FILE__ ) . '/settings.php' );
+	require __DIR__ . '/settings.php';
 }
 
 // Add a box in the edition page
@@ -193,15 +204,14 @@ function add_dolomon_meta_box( $post_type ) {
 	);
 }
 function render_meta_box() {
-	$url        = get_option( 'dolomon-url', '' );
-	$url        = preg_replace( '/\/$/', '', $url );
+	$url        = untrailingslashit( get_option( 'dolomon-url', '' ) );
 	$appid      = get_option( 'dolomon-app_id', '' );
 	$appsecret  = get_option( 'dolomon-app_secret', '' );
 	$dolo_cache = dolomon_fetch_data();
 
 	add_thickbox();
 
-	include( dirname( __FILE__ ) . '/metabox.php' );
+	require __DIR__ . '/metabox.php';
 }
 add_action( 'add_meta_boxes', 'add_dolomon_meta_box' );
 
@@ -211,11 +221,11 @@ function add_dolo() {
 		if ( ! check_admin_referer( 'dolomon_meta_box_nonce', 'dolomon_meta_box_nonce' ) ) {
 			return;
 		}
-		$url       = get_option( 'dolomon-url', '' );
+		$url       = untrailingslashit( get_option( 'dolomon-url', '' ) );
 		$appid     = get_option( 'dolomon-app_id', '' );
 		$appsecret = get_option( 'dolomon-app_secret', '' );
 
-		if ( ! empty( $url ) ) {
+		if ( $url ) {
 			# No need to sanitize input: the sanitizing will be done
 			# on the Dolomon server (double sanitizing may break things)
 			$args   = [
@@ -233,7 +243,6 @@ function add_dolo() {
 
 				],
 			];
-			$url    = preg_replace( '/\/$/', '', $url );
 			$result = json_decode( wp_remote_post( $url . '/api/dolo', $args )['body'], true );
 			if ( $result['success'] ) {
 				dolomon_fetch_data( true );
@@ -260,11 +269,11 @@ function add_cat() {
 		if ( ! check_admin_referer( 'dolomon_meta_box_nonce', 'dolomon_meta_box_nonce' ) ) {
 			return;
 		}
-		$url       = get_option( 'dolomon-url', '' );
+		$url       = untrailingslashit( get_option( 'dolomon-url', '' ) );
 		$appid     = get_option( 'dolomon-app_id', '' );
 		$appsecret = get_option( 'dolomon-app_secret', '' );
 
-		if ( ! empty( $url ) ) {
+		if ( $url ) {
 			$args   = [
 				'body'    => [
 					'name' => stripslashes( sanitize_text_field( $_POST['name'] ) ),
@@ -275,7 +284,6 @@ function add_cat() {
 
 				],
 			];
-			$url    = preg_replace( '/\/$/', '', $url );
 			$result = json_decode( wp_remote_post( $url . '/api/cat', $args )['body'], true );
 			if ( $result['success'] ) {
 				dolomon_fetch_data( true );
@@ -305,11 +313,11 @@ function add_tag() {
 				'msg'     => __( 'There was a problem while checking the referer.', 'dolomon' ),
 			] );
 		}
-		$url       = get_option( 'dolomon-url', '' );
+		$url       = untrailingslashit( get_option( 'dolomon-url', '' ) );
 		$appid     = get_option( 'dolomon-app_id', '' );
 		$appsecret = get_option( 'dolomon-app_secret', '' );
 
-		if ( ! empty( $url ) ) {
+		if ( $url ) {
 			$args   = [
 				'body'    => [
 					'name' => stripslashes( sanitize_text_field( $_POST['name'] ) ),
@@ -320,7 +328,6 @@ function add_tag() {
 
 				],
 			];
-			$url    = preg_replace( '/\/$/', '', $url );
 			$result = json_decode( wp_remote_post( $url . '/api/tag', $args )['body'], true );
 			if ( $result['success'] ) {
 				dolomon_fetch_data( true );
@@ -370,8 +377,7 @@ function dolo_format( $dolo, $atts ) {
 	if ( ! isset( $dolo['short'] ) ) {
 		return;
 	}
-	$url  = get_option( 'dolomon-url', '' );
-	$url  = preg_replace( '/\/$/', '', $url );
+	$url  = untrailingslashit( get_option( 'dolomon-url', '' ) );
 	$name = $url . $dolo['short'];
 	if ( $a['self'] ) {
 		if ( ! empty( $dolo['name'] ) ) {
@@ -436,15 +442,11 @@ function dolos_short( $atts ) {
 			$atags = explode( ',', $a['tags'] );
 			$dolos = [];
 			foreach ( $cat['dolos'] as $dolo ) {
-				$ok = false;
 				foreach ( $dolo['tags'] as $tag ) {
 					if ( in_array( $tag['id'], $atags ) ) {
-						$ok = true;
+						$dolos[] = $dolo;
 						break;
 					}
-				}
-				if ( $ok ) {
-					$dolos[] = $dolo;
 				}
 			}
 			if ( count( $dolos ) > 0 ) {
@@ -457,14 +459,10 @@ function dolos_short( $atts ) {
 	} elseif ( isset( $a['tag'] ) ) {
 		$tag = $dolo_cache['tags'][ $a['tag'] ];
 		if ( isset( $a['cats'] ) ) {
-			$acat  = explode( ',', $a['cat'] );
+			$acats = explode( ',', $a['cat'] );
 			$dolos = [];
 			foreach ( $tag['dolos'] as $dolo ) {
-				$ok = false;
 				if ( in_array( $dolo['category_id'], $acats ) ) {
-					$ok = true;
-				}
-				if ( $ok ) {
 					$dolos[] = $dolo;
 				}
 			}
@@ -565,5 +563,4 @@ function dolo_short( $atts ) {
 add_shortcode( 'dolo', 'dolo_short' );
 
 // Widget
-include( dirname( __FILE__ ) . '/widget.php' );
-?>
+require __DIR__ . '/widget.php';
