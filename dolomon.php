@@ -67,14 +67,23 @@ function dolomon_fetch_data( $reset_cache = false ) {
 
 		$dolo_cache['cats'] = [];
 		foreach ( $cats['object'] as $cat ) {
-			$dolo_cache['cats'][ '' . $cat['id'] ] = $cat;
 			foreach ( $cat['dolos'] as $dolo ) {
 				$dolo_cache['dolos'][ $dolo['id'] ] = $dolo;
 			}
+
+			// Instead of saving all dolos, just remember how many.
+			$cat['dolos_count'] = count( $cat['dolos'] );
+			unset( $cat['dolos'] );
+
+			$dolo_cache['cats'][ '' . $cat['id'] ] = $cat;
 		}
 
 		$dolo_cache['tags'] = [];
 		foreach ( $tags['object'] as $tag ) {
+			// Instead of saving all dolos, just remember how many.
+			$tag['dolos_count'] = count( $tag['dolos'] );
+			unset( $tag['dolos'] );
+
 			$dolo_cache['tags'][ '' . $tag['id'] ] = $tag;
 		}
 
