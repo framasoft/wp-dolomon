@@ -9,20 +9,18 @@
 <div class="wrap">
 	<h1><?php _e( 'Dolomon settings', 'dolomon' ) ?></h1>
 	<div id="dolomon-alert">
-		<?php
-		// Display message if any
-		if ( isset( $notice_message ) ) {
-			?>
-			<div class="notice <?php echo $settings_valid ? 'updated' : 'error'; ?>">
+		<?php if ( isset( $notice_message ) ) : ?>
+			<div class="notice is-dismissible <?php echo $settings_valid ? 'updated' : 'error'; ?>">
 				<p>
 					<strong>
 						<?php echo $notice_message; ?>
 					</strong>
 				</p>
+				<button type="button" class="notice-dismiss">
+					<span class="screen-reader-text"><?php _e( 'Dismiss this notice.' ) ?></span>
+				</button>
 			</div>
-			<?php
-		}
-		?>
+		<?php endif; ?>
 	</div>
 	<form method="post" action="<?php echo $action_url ?>" id="dolomon-form">
 		<?php wp_nonce_field( 'dolomon-settings' ); ?>
