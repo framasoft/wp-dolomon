@@ -2,7 +2,7 @@
 // vim:set ft=php noexpandtab:
 
 /**
- * Adds Foo_Widget widget.
+ * Adds Dolo_Widget widget.
  */
 class Dolo_Widget extends WP_Widget {
 
@@ -197,9 +197,9 @@ class Dolo_Widget extends WP_Widget {
 		return $instance;
 	}
 
-} // class Foo_Widget
+} // class Dolo_Widget
 
-// register Foo_Widget widget
+// register Dolo_Widget widget
 function register_dolo_widget() {
 	register_widget( 'Dolo_Widget' );
 }
