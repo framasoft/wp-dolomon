@@ -11,19 +11,14 @@
 	<div id="dolomon-alert">
 		<?php
 		// Display message if any
-		if ( isset( $msg ) ) {
+		if ( isset( $notice_message ) ) {
 			?>
-			<div class="updated settings-error notice is-dismissible">
+			<div class="notice <?php echo $settings_valid ? 'updated' : 'error'; ?>">
 				<p>
 					<strong>
-					<span style="display: block; margin: 0.5em 0.5em 0 0; clear: both;">
-						<?php echo $msg; ?>
-					</span>
+						<?php echo $notice_message; ?>
 					</strong>
 				</p>
-				<button type="button" class="notice-dismiss">
-					<span class="screen-reader-text"><?php _e( 'Dismiss this notice.' ) ?></span>
-				</button>
 			</div>
 			<?php
 		}
