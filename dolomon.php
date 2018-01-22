@@ -403,10 +403,7 @@ function dolo_format( $dolo, $atts ) {
 		$name = preg_replace( '/%extra/', $dolo['extra'], $name );
 		$name = preg_replace( '/%cat/', $dolo['category_name'], $name );
 		$name = preg_replace( '/%url/', $dolo['url'], $name );
-		$tags = [];
-		foreach ( $dolo['tags'] as $tag ) {
-			$tags[] = $tag['name'];
-		}
+		$tags = wp_list_pluck( $dolo['tags'], 'name' );
 		$name = preg_replace( '/%tags/', implode( ', ', $tags ), $name );
 	} elseif ( $a['count'] ) {
 		$name = $dolo['count'];

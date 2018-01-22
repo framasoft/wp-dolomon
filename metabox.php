@@ -155,11 +155,7 @@ wp_nonce_field( 'dolomon_meta_box_nonce', 'dolomon_meta_box_nonce' );
 								<td class="dolo-filter-extra"><?php echo esc_attr( $dolo['extra'] ) ?></td>
 								<td><a href="#" class="dolo-filter-shortcode" data-id="<?php echo $dolo['id'] ?>" onclick="copyText('[dolo id=<?php echo $dolo['id'] ?>]')">[dolo id=<?php echo $dolo['id'] ?>]</a></td>
 								<td class="dolo-filter-tags">
-									<?php $tags = [];
-									foreach ( $dolo['tags'] as $tag ) {
-										$tags[] = $tag['name'];
-									}
-									echo esc_attr( implode( ', ', $tags ) ); ?>
+									<?php echo implode( ', ', array_map( 'esc_attr', wp_list_pluck( $dolo['tags'], 'name' ) ) ); ?>
 								</td>
 							</tr>
 						<?php } ?>
