@@ -26,10 +26,8 @@ class Dolo_Widget extends WP_Widget {
 	 * @param array $instance Saved values from database.
 	 */
 	public function widget( $args, $instance ) {
-		global $dolo_cache;
-		if ( time() - $dolo_cache['last_fetch'] > $cache_expiration ) {
-			dolomon_refresh_cache();
-		}
+		$dolo_cache = dolomon_fetch_data();
+
 		echo $args['before_widget'];
 		if ( ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
@@ -45,10 +43,14 @@ class Dolo_Widget extends WP_Widget {
 		switch ( $instance['dolo-widget-type'] ) {
 			case 'dolo-choose-cat':
 				foreach ( $instance['dolomon-cat'] as $cat_id ) {
+					$cat_dolos = array_filter( $dolo_cache['dolos'], function ( $dolo ) use ( $cat_id ) {
+						return $dolo['category_id'] == $cat_id;
+					} );
+
 					$cat = $dolo_cache['cats']["$cat_id"]; ?>
 					<h6 style="margin: 5px 0"><?php echo apply_filters( 'widget_text', $cat['name'] ); ?></h6>
 					<ul>
-						<?php foreach ( $cat['dolos'] as $dolo ) { ?>
+						<?php foreach ( $cat_dolos as $dolo ) { ?>
 							<li><?php echo apply_filters( 'widget_text', dolo_format( $dolo, $a ) ); ?></li>
 						<?php } ?>
 					</ul>
@@ -56,10 +58,14 @@ class Dolo_Widget extends WP_Widget {
 				break;
 			case 'dolo-choose-tag':
 				foreach ( $instance['dolomon-tag'] as $tag_id ) {
+					$tag_dolos = array_filter( $dolo_cache['dolos'], function ( $dolo ) use ( $tag_id ) {
+						return in_array( $tag_id, wp_list_pluck( $dolo['tags'], 'id' ) );
+					} );
+
 					$tag = $dolo_cache['tags']["$tag_id"]; ?>
 					<h6 style="margin: 5px 0"><?php echo apply_filters( 'widget_text', $tag['name'] ); ?></h6>
 					<ul>
-						<?php foreach ( $tag['dolos'] as $dolo ) { ?>
+						<?php foreach ( $tag_dolos as $dolo ) { ?>
 							<li><?php echo apply_filters( 'widget_text', dolo_format( $dolo, $a ) ); ?></li>
 						<?php } ?>
 					</ul>
@@ -85,8 +91,8 @@ class Dolo_Widget extends WP_Widget {
 	 * @param array $instance Previously saved values from database.
 	 */
 	public function form( $instance ) {
-		global $dolo_cache;
-		dolomon_refresh_cache();
+		$dolo_cache = dolomon_fetch_data();
+
 		$defaults = [
 			'title'            => __( 'New title', 'dolomon' ),
 			'format'           => '%name',

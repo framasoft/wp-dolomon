@@ -28,74 +28,71 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 define( 'DOLOMON_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-// Dolomon's data cache system
-$dolo_cache     = [
-	'dolos' => [],
-	'cats'  => null,
-	'tags'  => null,
-];
-$dolo_cachefile = __DIR__ . '/cache.json';
-if ( file_exists( $dolo_cachefile ) ) {
-	$dolo_cache = json_decode( file_get_contents( $dolo_cachefile ), true );
-	if ( time() - $dolo_cache['last_fetch'] > get_option( 'dolomon-cache_expiration', 3600 ) ) {
-		dolomon_refresh_cache( $dolo_cachefile );
+/**
+ * Fetch the (cached) data from the dolomon server.
+ *
+ * @param bool $reset_cache
+ *
+ * @return array|mixed
+ */
+function dolomon_fetch_data( $reset_cache = false ) {
+	$dolo_cache = get_transient( 'dolomon_data' );
+	if ( $dolo_cache && ! $reset_cache ) {
+		return $dolo_cache;
 	}
-} else {
-	dolomon_refresh_cache( $dolo_cachefile );
-}
 
-// Get data from dolomon and put it in the cache file
-function dolomon_refresh_cache( $dolo_cachefile ) {
-	if ( null === $dolo_cachefile || '' === $dolo_cachefile ) {
-		$dolo_cachefile = __DIR__ . '/cache.json';
-	}
-	$url       = untrailingslashit( get_option( 'dolomon-url', '' ) );
-	$appid     = get_option( 'dolomon-app_id', '' );
-	$appsecret = get_option( 'dolomon-app_secret', '' );
+	$dolo_cache = [
+		'dolos' => [],
+		'cats'  => null,
+		'tags'  => null,
+	];
 
-	if ( $url ) {
+	if ( $url = untrailingslashit( get_option( 'dolomon-url', '' ) ) ) {
 		$args = [
 			'headers' => [
-				'XDolomon-App-Id'     => $appid,
-				'XDolomon-App-Secret' => $appsecret,
+				'XDolomon-App-Id'     => get_option( 'dolomon-app_id', '' ),
+				'XDolomon-App-Secret' => get_option( 'dolomon-app_secret', '' ),
 			],
 		];
 
 		$wcats = wp_remote_get( $url . '/api/cat', $args );
 		$wtags = wp_remote_get( $url . '/api/tag', $args );
-		$cats  = [
-			'object' => [],
-		];
-		$tags  = [
-			'object' => [],
-		];
-		if ( is_array( $wcats ) ) {
-			$cats = json_decode( $wcats['body'], true );
-		}
-		if ( is_array( $wcats ) ) {
-			$tags = json_decode( $wtags['body'], true );
-		}
 
-		global $dolo_cache;
+		$cats = is_array( $wcats )
+			? json_decode( $wcats['body'], true )
+			: [ 'object' => [] ];
+		$tags = is_array( $wtags )
+			? json_decode( $wtags['body'], true )
+			: [ 'object' => [] ];
 
-		$file = fopen( $dolo_cachefile, 'wb' ) or die( printf( __( 'Unable to open cache file %s!', 'dolomon' ), $dolo_cachefile ) );
-
-		$dolo_cache['cats']  = [];
-		$dolo_cache['tags']  = [];
-		$dolo_cache['dolos'] = [];
-
+		$dolo_cache['cats'] = [];
 		foreach ( $cats['object'] as $cat ) {
-			$dolo_cache['cats'][ '' . $cat['id'] ] = $cat;
 			foreach ( $cat['dolos'] as $dolo ) {
 				$dolo_cache['dolos'][ $dolo['id'] ] = $dolo;
 			}
+
+			// Instead of saving all dolos, just remember how many.
+			$cat['dolos_count'] = count( $cat['dolos'] );
+			unset( $cat['dolos'] );
+
+			$dolo_cache['cats'][ '' . $cat['id'] ] = $cat;
 		}
+
+		$dolo_cache['tags'] = [];
 		foreach ( $tags['object'] as $tag ) {
+			// Instead of saving all dolos, just remember how many.
+			$tag['dolos_count'] = count( $tag['dolos'] );
+			unset( $tag['dolos'] );
+
 			$dolo_cache['tags'][ '' . $tag['id'] ] = $tag;
 		}
+
+		// todo: Not really necessary any more I guess.
 		$dolo_cache['last_fetch'] = time();
-		fwrite( $file, json_encode( $dolo_cache ) );
+		set_transient( 'dolomon_data', $dolo_cache, get_option( 'dolomon-cache_expiration', 3600 ) );
 	}
+
+	return $dolo_cache;
 }
 
 // Uninstallation hook
@@ -216,13 +213,10 @@ function add_dolomon_meta_box( $post_type ) {
 	);
 }
 function render_meta_box() {
-	$url       = untrailingslashit( get_option( 'dolomon-url', '' ) );
-	$appid     = get_option( 'dolomon-app_id', '' );
-	$appsecret = get_option( 'dolomon-app_secret', '' );
-
-	dolomon_refresh_cache( $dolo_cachefile );
-
-	global $dolo_cache;
+	$url        = untrailingslashit( get_option( 'dolomon-url', '' ) );
+	$appid      = get_option( 'dolomon-app_id', '' );
+	$appsecret  = get_option( 'dolomon-app_secret', '' );
+	$dolo_cache = dolomon_fetch_data();
 
 	add_thickbox();
 
@@ -260,7 +254,7 @@ function add_dolo() {
 			];
 			$result = json_decode( wp_remote_post( $url . '/api/dolo', $args )['body'], true );
 			if ( $result['success'] ) {
-				dolomon_refresh_cache( $dolo_cachefile );
+				dolomon_fetch_data( true );
 			}
 			wp_send_json( $result );
 		} else {
@@ -301,7 +295,7 @@ function add_cat() {
 			];
 			$result = json_decode( wp_remote_post( $url . '/api/cat', $args )['body'], true );
 			if ( $result['success'] ) {
-				dolomon_refresh_cache( $dolo_cachefile );
+				dolomon_fetch_data( true );
 			}
 			wp_send_json( $result );
 		} else {
@@ -345,7 +339,7 @@ function add_tag() {
 			];
 			$result = json_decode( wp_remote_post( $url . '/api/tag', $args )['body'], true );
 			if ( $result['success'] ) {
-				dolomon_refresh_cache( $dolo_cachefile );
+				dolomon_fetch_data( true );
 			}
 			wp_send_json( $result );
 		} else {
@@ -446,12 +440,8 @@ function dolos_short( $atts ) {
 		'notitle'  => false,
 	], dolo_parse_atts( $atts ) );
 
-	global $dolo_cache;
-	$cache_expiration = get_option( 'dolomon-cache_expiration', 3600 );
-	// fixme: $id isn't set, but fix this when fixing #2.
-	if ( ! isset( $dolo_cache['dolos']["$id"] ) || ( time() - $dolo_cache['last_fetch'] > $cache_expiration ) ) {
-		dolomon_refresh_cache( $dolo_cachefile );
-	}
+	$dolo_cache = dolomon_fetch_data();
+
 	$ar = [];
 	if ( $a['page'] ) {
 		$ar = $dolo_cache['cats'];
@@ -570,11 +560,8 @@ function dolo_short( $atts ) {
 
 	$id = $a['id'];
 
-	global $dolo_cache;
-	$cache_expiration = get_option( 'dolomon-cache_expiration', 3600 );
-	if ( ! isset( $dolo_cache['dolos']["$id"] ) || ( time() - $dolo_cache['last_fetch'] > $cache_expiration ) ) {
-		dolomon_refresh_cache( $dolo_cachefile );
-	}
+	$dolo_cache = dolomon_fetch_data();
+
 	if ( isset( $dolo_cache['dolos']["$id"] ) ) {
 		$dolo = $dolo_cache['dolos']["$id"];
 		return dolo_format( $dolo, $a );

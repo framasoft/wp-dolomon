@@ -184,7 +184,7 @@ wp_nonce_field( 'dolomon_meta_box_nonce', 'dolomon_meta_box_nonce' );
 						<?php foreach ( $dolo_cache['cats'] as $cat ) { ?>
 							<tr>
 								<td class="dolo-filter-name"><?php echo esc_attr( $cat['name'] ) ?></td>
-								<td class="dolo-filter-number"><?php echo count( $cat['dolos'] ) ?></td>
+								<td class="dolo-filter-number"><?php echo $cat['dolos_count'] ?></td>
 								<td><a href="#" class="dolo-filter-shortcode" data-id="<?php echo $cat['id'] ?>" onclick="copyText('[dolos cat=<?php echo $cat['id'] ?>]')">[dolos cat=<?php echo $cat['id'] ?>]</a></td>
 							</tr>
 						<?php } ?>
@@ -209,7 +209,7 @@ wp_nonce_field( 'dolomon_meta_box_nonce', 'dolomon_meta_box_nonce' );
 						<?php foreach ( $dolo_cache['tags'] as $tag ) { ?>
 							<tr>
 								<td class="dolo-filter-name"><?php echo esc_attr( $tag['name'] ) ?></td>
-								<td class="dolo-filter-number"><?php echo count( $tag['dolos'] ) ?></td>
+								<td class="dolo-filter-number"><?php echo $tag['dolos_count'] ?></td>
 								<td><a href="#" class="dolo-filter-shortcode" data-id="<?php echo $tag['id'] ?>" onclick="copyText('[dolos tag=<?php echo $tag['id'] ?>]')">[dolos tag=<?php echo $tag['id'] ?>]</a></td>
 							</tr>
 						<?php } ?>
