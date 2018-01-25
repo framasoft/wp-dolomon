@@ -9,7 +9,7 @@ class Dolo_Widget extends WP_Widget {
 	/**
 	 * Register widget with WordPress.
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::__construct(
 			'dolo_widget', // Base ID
 			__( 'Dolos widget', 'dolomon' ), // Name
@@ -116,16 +116,16 @@ class Dolo_Widget extends WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id( 'dolo-widget-type' ) ?>"><?php _e( 'Choose type of widget', 'dolomon' ) ?></label>
 			<select id="<?php echo $this->get_field_id( 'dolo-widget-type' ) ?>" name="<?php echo $this->get_field_name( 'dolo-widget-type' ) ?>" class="widefat dolo-widget-type">
-				<option value="dolo-choose-cat"<?php if ( $instance['dolo-widget-type'] === 'dolo-choose-cat' ) { ?> selected<?php } ?>><?php _e( 'Category', 'dolomon' ) ?></option>
-				<option value="dolo-choose-tag"<?php if ( $instance['dolo-widget-type'] === 'dolo-choose-tag' ) { ?> selected<?php } ?>><?php _e( 'Tags', 'dolomon' ) ?></option>
-				<option value="dolo-choose-dolo"<?php if ( $instance['dolo-widget-type'] === 'dolo-choose-dolo' ) { ?> selected<?php } ?>><?php _e( 'Dolos', 'dolomon' ) ?></option>
+				<option value="dolo-choose-cat"<?php echo selected( $instance['dolo-widget-type'] === 'dolo-choose-cat' ) ?>><?php _e( 'Category', 'dolomon' ) ?></option>
+				<option value="dolo-choose-tag"<?php echo selected( $instance['dolo-widget-type'] === 'dolo-choose-tag' ) ?>><?php _e( 'Tags', 'dolomon' ) ?></option>
+				<option value="dolo-choose-dolo"<?php echo selected( $instance['dolo-widget-type'] === 'dolo-choose-dolo' ) ?>><?php _e( 'Dolos', 'dolomon' ) ?></option>
 			</select>
 		</p>
 		<p class="dolo-choose-cat<?php if ( $instance['dolo-widget-type'] != 'dolo-choose-cat' ) { ?> hidden<?php } ?>">
 			<label for="<?php echo $this->get_field_id( 'dolomon-cat' ) ?>"><?php _e( 'Categories', 'dolomon' ) ?></label><br>
 			<select id="<?php echo $this->get_field_id( 'dolomon-cat' ) ?>" name="<?php echo $this->get_field_name( 'dolomon-cat[]' ) ?>" class="widefat" multiple>
 				<?php foreach ( $dolo_cache['cats'] as $cat ) { ?>
-					<option value="<?php echo $cat['id'] ?>"<?php if ( in_array( $cat['id'], $instance['dolomon-cat'] ) ) { ?> selected<?php } ?>><?php echo $cat['name'] ?></option>
+					<option value="<?php echo $cat['id'] ?>"<?php echo selected( in_array( $cat['id'], $instance['dolomon-cat'] ) ) ?>><?php echo $cat['name'] ?></option>
 				<?php } ?>
 			</select>
 		</p>
@@ -133,7 +133,7 @@ class Dolo_Widget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'dolomon-tag' ) ?>"><?php _e( 'Tags', 'dolomon' ) ?></label><br>
 			<select id="<?php echo $this->get_field_id( 'dolomon-tag' ) ?>" name="<?php echo $this->get_field_name( 'dolomon-tag[]' ) ?>" class="widefat" multiple>
 				<?php foreach ( $dolo_cache['tags'] as $tag ) { ?>
-					<option value="<?php echo $tag['id'] ?>"<?php if ( in_array( $tag['id'], $instance['dolomon-tag'] ) ) { ?> selected<?php } ?>><?php echo $tag['name'] ?></option>
+					<option value="<?php echo $tag['id'] ?>"<?php echo selected( in_array( $tag['id'], $instance['dolomon-tag'] ) ) ?>><?php echo $tag['name'] ?></option>
 				<?php } ?>
 			</select>
 		</p>
@@ -142,11 +142,8 @@ class Dolo_Widget extends WP_Widget {
 			<input class="widefat dolo-filter" type="text" placeholder="filter">
 			<select id="<?php echo $this->get_field_id( 'dolomon-dolo' ) ?>" name="<?php echo $this->get_field_name( 'dolomon-dolo[]' ) ?>" class="widefat" multiple>
 				<?php foreach ( $dolo_cache['dolos'] as $dolo ) {
-					if ( empty( $dolo['name'] ) ) { ?>
-						<option value="<?php echo $dolo['id'] ?>"<?php if ( in_array( $dolo['id'], $instance['dolomon-dolo'] ) ) { ?> selected<?php } ?>><?php echo $dolo['url'] ?></option>
-					<?php } else { ?>
-						<option value="<?php echo $dolo['id'] ?>"<?php if ( in_array( $dolo['id'], $instance['dolomon-dolo'] ) ) { ?> selected<?php } ?>><?php echo $dolo['name'] ?></option>
-					<?php } ?>
+					$text = ( isset ( $dolo['name'] ) && '' !== $dolo['name'] ) ? $dolo['name'] : $dolo['url']; ?>
+					<option value="<?php echo $dolo['id'] ?>"<?php echo selected( in_array( $dolo['id'], $instance['dolomon-dolo'] ) ) ?>><?php echo $text ?></option>
 				<?php } ?>
 			</select>
 		</p>
