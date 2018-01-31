@@ -465,7 +465,7 @@ function dolos_short( $atts ) {
 	} elseif ( isset( $a['tag'] ) ) {
 		$tag = $dolo_cache['tags'][ $a['tag'] ];
 		if ( isset( $a['cats'] ) ) {
-			$acats = explode( ',', $a['cat'] );
+			$acats = explode( ',', $a['cats'] );
 			$dolos = [];
 			foreach ( $tag['dolos'] as $dolo ) {
 				if ( in_array( $dolo['category_id'], $acats ) ) {
