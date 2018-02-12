@@ -4,7 +4,7 @@ Donate link: https://soutenir.framasoft.org
 Tags: URL, stats
 Requires at least: 4.5.2
 Tested up to: 4.9.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Requires PHP: 5.6.33
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
@@ -18,7 +18,7 @@ Transforms an URL into an URL provided by a Dolomon server, which creates visit 
 
 Installation is standard and straight forward.
 
-1. Upload `wp-dolomon` folder (and all its contents) to the `/wp-content/plugins/` directory.
+1. Upload `dolomon` folder (and all its contents) to the `/wp-content/plugins/` directory.
 1. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Frequently Asked Questions ==
