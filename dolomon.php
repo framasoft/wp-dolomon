@@ -4,7 +4,7 @@
 * Plugin Name: Dolomon
 * Plugin URI: https://framagit.org/framasoft/wp-dolomon
 * Description: Transforms an URL into an URL provided by a Dolomon server, which creates visit statistics
-* Version: 1.1.3
+* Version: 1.1.4
 * Author: Framasoft
 * Author URI: https://framasoft.org
 * License: GPLv3
