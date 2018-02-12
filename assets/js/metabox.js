@@ -200,12 +200,13 @@ jQuery( document ).ready( function ( $ ) {
 		} );
 		var val = input.val();
 		var sel = input.data( 'filter' );
+		var rgx = new RegExp( val, 'i' );
 		input.parents( 'table' ).find( sel ).each( function ( index, element ) {
 			var e = $( element );
 			if ( val === undefined || val === '' ) {
 				e.parents( 'tr' ).removeClass( 'hidden' );
 			} else {
-				if ( !e.text().match( new RegExp( val ) ) ) {
+				if ( !e.text().match( rgx ) ) {
 					e.parents( 'tr' ).addClass( 'hidden' );
 				} else {
 					e.parents( 'tr' ).removeClass( 'hidden' );
