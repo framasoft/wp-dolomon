@@ -4,7 +4,7 @@
 * Plugin Name: Dolomon
 * Plugin URI: https://framagit.org/framasoft/wp-dolomon
 * Description: Transforms an URL into an URL provided by a Dolomon server, which creates visit statistics
-* Version: 1.1.4
+* Version: 1.1.5
 * Author: Framasoft
 * Author URI: https://framasoft.org
 * License: GPLv3
@@ -109,20 +109,20 @@ load_plugin_textdomain( 'dolomon', false, basename( __DIR__ ) . '/languages' );
 
 // add styles and scripts
 function dolomon_post_scripts() {
-	wp_register_style( 'dolo-metabox', plugin_dir_url( __FILE__ ) . 'assets/css/metabox.css' );
+	wp_register_style( 'dolo-metabox', plugin_dir_url( __FILE__ ) . 'css/metabox.css' );
 	wp_enqueue_style( 'dolo-metabox' );
-	wp_register_script( 'dolo-metabox', plugin_dir_url( __FILE__ ) . 'assets/js/metabox.js', 'jquery' );
+	wp_register_script( 'dolo-metabox', plugin_dir_url( __FILE__ ) . 'js/metabox.js', 'jquery' );
 	wp_enqueue_script( 'dolo-metabox' );
 }
 if ( is_admin() && ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) ) {
 	add_action( 'admin_enqueue_scripts', 'dolomon_post_scripts' );
 }
 function dolomon_wp_styles() {
-	wp_register_style( 'dolo-shortcode', plugin_dir_url( __FILE__ ) . 'assets/css/shortcode.css' );
+	wp_register_style( 'dolo-shortcode', plugin_dir_url( __FILE__ ) . 'css/shortcode.css' );
 	wp_enqueue_style( 'dolo-shortcode' );
-	wp_register_style( 'dolo-shortcode-page', plugin_dir_url( __FILE__ ) . 'assets/css/page.css' );
+	wp_register_style( 'dolo-shortcode-page', plugin_dir_url( __FILE__ ) . 'css/page.css' );
 	wp_enqueue_style( 'dolo-shortcode-page' );
-	wp_register_script( 'dolo-page', plugin_dir_url( __FILE__ ) . 'assets/js/page.js', 'jquery' );
+	wp_register_script( 'dolo-page', plugin_dir_url( __FILE__ ) . 'js/page.js', 'jquery' );
 	wp_enqueue_script( 'dolo-page' );
 }
 add_action( 'wp_enqueue_scripts', 'dolomon_wp_styles' );

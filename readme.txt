@@ -4,7 +4,7 @@ Donate link: https://soutenir.framasoft.org
 Tags: URL, stats
 Requires at least: 4.5.2
 Tested up to: 4.9.1
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 Requires PHP: 5.6.33
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
